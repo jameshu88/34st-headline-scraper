@@ -13,23 +13,30 @@ import requests
 import loguru
 
 
+import requests
+import bs4
+import loguru
+
 def scrape_data_point():
     """
-    Scrapes the main headline from The Daily Pennsylvanian home page.
+    Scrapes the main headline from the 34th Street Magazine homepage.
 
     Returns:
         str: The headline text if found, otherwise an empty string.
     """
-    req = requests.get("https://www.thedp.com")
+    req = requests.get("https://www.34st.com")
     loguru.logger.info(f"Request URL: {req.url}")
     loguru.logger.info(f"Request status code: {req.status_code}")
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        target_element = soup.find("a", class_="frontpage-link")
-        data_point = "" if target_element is None else target_element.text
-        loguru.logger.info(f"Data point: {data_point}")
-        return data_point
+        # Adjusted to find the first 'a' tag with the class 'headline-link', then get the text from the nested 'h2' tag.
+        target_element = soup.find("a", class_="headline-link")
+        headline = target_element.find("h2").text if target_element else ""
+        loguru.logger.info(f"Headline: {headline}")
+        return headline
+    else:
+        return ""
 
 
 if __name__ == "__main__":
