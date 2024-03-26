@@ -19,10 +19,10 @@ import loguru
 
 def scrape_data_point():
     """
-    Scrapes the main headline from the 34th Street Magazine homepage.
+    Scrapes the main headline and subtitle from the 34th Street Magazine homepage and combines them.
 
     Returns:
-        str: The headline text if found, otherwise an empty string.
+        str: A string combining the headline and subtitle if found, otherwise an empty string.
     """
     req = requests.get("https://www.34st.com")
     loguru.logger.info(f"Request URL: {req.url}")
@@ -30,11 +30,16 @@ def scrape_data_point():
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        # Adjusted to find the first 'a' tag with the class 'headline-link', then get the text from the nested 'h2' tag.
         target_element = soup.find("a", class_="headline-link")
         headline = target_element.find("h2").text if target_element else ""
-        loguru.logger.info(f"Headline: {headline}")
-        return headline
+        # Searching for the subtitle within the <span class="abstract"> tag
+        subtitle_element = soup.find("span", class_="abstract")
+        subtitle = subtitle_element.find("p").text if subtitle_element else ""
+        
+        combined_text = f"{headline}: {subtitle}" if headline and subtitle else headline or subtitle
+        
+        loguru.logger.info(f"Combined Headline and Subtitle: {combined_text}")
+        return combined_text
     else:
         return ""
 
@@ -55,7 +60,7 @@ if __name__ == "__main__":
     # Load daily event monitor
     loguru.logger.info("Loading daily event monitor")
     dem = daily_event_monitor.DailyEventMonitor(
-        "data/daily_pennsylvanian_headlines.json"
+        "data/34st_headlines.json"
     )
 
     # Run scrape
