@@ -7,7 +7,7 @@ This project modifies an existing scraper by @jlumbroso to fetch the top headlin
 ## Modification Details
 
 ### Target Website Change
-- **Previous Target**: The Daily Pennsylvanian
+- **Previous Target**: The Daily Pennsylvanian (thedp.com)
 - **New Target**: 34th Street Magazine (34st.com)
 - **Reason**: To capture the essence of Penn's cultural and artistic scene, providing a snapshot of the vibrant discussions and expressions within the University.
 
