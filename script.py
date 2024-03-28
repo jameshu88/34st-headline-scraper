@@ -13,10 +13,6 @@ import requests
 import loguru
 
 
-import requests
-import bs4
-import loguru
-
 def scrape_data_point():
     """
     Scrapes the main headline and subtitle from the 34th Street Magazine homepage and combines them.
