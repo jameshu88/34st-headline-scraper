@@ -26,19 +26,24 @@ def scrape_data_point():
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        target_element = soup.find("a", class_="headline-link")
+        
+        # Updated: Finding the div with class "col-lg-7" containing the headline
+        target_element = soup.find("div", class_="col-lg-7")
+        
+        # Updated: Extracting the headline from the <h2> tag inside the target element
         headline = target_element.find("h2").text if target_element else ""
+        
         # Searching for the subtitle within the <span class="abstract"> tag
         subtitle_element = soup.find("span", class_="abstract")
-        subtitle = subtitle_element.find("p").text if subtitle_element else ""
+        subtitle = subtitle_element.text if subtitle_element else ""
         
         combined_text = f"{headline}: {subtitle}" if headline and subtitle else headline or subtitle
         
         loguru.logger.info(f"Combined Headline and Subtitle: {combined_text}")
         return combined_text
     else:
+        loguru.logger.error("Request failed")
         return ""
-
 
 if __name__ == "__main__":
 
