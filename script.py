@@ -27,10 +27,10 @@ def scrape_data_point():
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
         
-        # Updated: Finding the div with class "col-lg-7" containing the headline
-        target_element = soup.find("div", class_="col-lg-7")
+        # Updated: Finding the div with class "col-lg-5 col-sm-7 featured-article"
+        target_element = soup.find("div", class_="col-lg-5 col-sm-7 featured-article")
         
-        # Updated: Extracting the headline from the <h2> tag inside the target element
+        # Extracting the headline from the <h2> tag inside the target element
         headline = target_element.find("h2").text if target_element else ""
         
         # Searching for the subtitle within the <span class="abstract"> tag
